@@ -1,0 +1,28 @@
+{
+  "9488918": {
+    "pageSize": 100,
+    "page": 1,
+    "moreResults": false,
+    "recordCount": 6,
+    "results": [
+      {"cvn": 16173224, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2024-03-01T00:00:00", "roughValue": 55.0, "currency": "USD (m)"},
+      {"cvn": 16173223, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2024-02-01T00:00:00", "roughValue": 53.5, "currency": "USD (m)"},
+      {"cvn": 16173222, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2024-01-01T00:00:00", "roughValue": 52.0, "currency": "USD (m)"},
+      {"cvn": 16173221, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2023-12-01T00:00:00", "roughValue": 50.0, "currency": "USD (m)"},
+      {"cvn": 16173220, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2023-11-01T00:00:00", "roughValue": 48.0, "currency": "USD (m)"},
+      {"cvn": 16173219, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2023-10-01T00:00:00", "roughValue": 47.5, "currency": "USD (m)"}
+    ]
+  },
+  "9134414": {
+    "pageSize": 100,
+    "page": 1,
+    "moreResults": false,
+    "recordCount": 4,
+    "results": [
+      {"cvn": 16173300, "imoNumber": 9134414, "valuationVesselId": 52200, "date": "2024-03-01T00:00:00", "roughValue": 2.8, "currency": "USD (m)"},
+      {"cvn": 16173299, "imoNumber": 9134414, "valuationVesselId": 52200, "date": "2024-02-01T00:00:00", "roughValue": 2.7, "currency": "USD (m)"},
+      {"cvn": 16173298, "imoNumber": 9134414, "valuationVesselId": 52200, "date": "2024-01-01T00:00:00", "roughValue": 2.6, "currency": "USD (m)"},
+      {"cvn": 16173297, "imoNumber": 9134414, "valuationVesselId": 52200, "date": "2023-12-01T00:00:00", "roughValue": 2.5, "currency": "USD (m)"}
+    ]
+  }
+}

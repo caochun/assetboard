@@ -1,0 +1,26 @@
+{
+  "code": 200,
+  "msg": "成功!",
+  "data": [
+    {
+      "imo": "9488918",
+      "shipName": "TIAN EN",
+      "alertType": "SANCTION_ZONE_ENTRY",
+      "alertLevel": "HIGH",
+      "alertTime": "2024-03-15 14:30:00",
+      "description": "船舶进入制裁区域（朝鲜半岛周边水域）",
+      "lon": 126.5,
+      "lat": 37.2
+    },
+    {
+      "imo": "9488918",
+      "shipName": "TIAN EN",
+      "alertType": "AIS_OFF",
+      "alertLevel": "MEDIUM",
+      "alertTime": "2024-03-14 02:15:00",
+      "description": "船舶AIS信号中断超过6小时",
+      "lon": 121.5,
+      "lat": 31.3
+    }
+  ]
+}

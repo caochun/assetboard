@@ -1,0 +1,17 @@
+{
+  "code": 200,
+  "msg": "成功!",
+  "data": {
+    "temperature": 18.5,
+    "humidity": 72,
+    "pressure": 1013.2,
+    "winddir": 225,
+    "windspeed": 8.5,
+    "visibility": 12000,
+    "waveheight": 1.2,
+    "swelldir": 210,
+    "swellheight": 0.8,
+    "swellperiod": 6,
+    "bm500": 0
+  }
+}

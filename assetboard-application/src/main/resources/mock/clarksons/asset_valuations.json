@@ -1,0 +1,60 @@
+{
+  "9488918": {
+    "pageSize": 100,
+    "page": 1,
+    "moreResults": false,
+    "recordCount": 1,
+    "results": [{
+      "portfolioName": "CMFL Fleet",
+      "valuationJobReference": "VJ-2024-001",
+      "valuationVesselId": 52173,
+      "cvn": 16173224,
+      "imoNumber": 9488918,
+      "vesselName": "TIAN EN",
+      "vesselType": "Capesize Bulk Carrier",
+      "yearOfBuild": 2011,
+      "owner": "Tian En Shipping Co Ltd",
+      "builder": "Shanghai Waigaoqiao Shipbuilding",
+      "valuationDate": "2024-03-01T00:00:00",
+      "valuationCurrency": "USD",
+      "valuationAmountMid": 55.0,
+      "valuationAmountLow": 50.0,
+      "valuationAmountHigh": 60.0,
+      "valuationMethodology": "Market Comparable",
+      "currentRoughValueUSDmillion": 55.0,
+      "currentEstimatedDemolitionValueUSDmillion": 12.5,
+      "currentDemolitionUSDPerLDT": 550,
+      "ldt": 22700,
+      "currentEstimatedNewbuildValueUSDmillion": 65.0
+    }]
+  },
+  "9134414": {
+    "pageSize": 100,
+    "page": 1,
+    "moreResults": false,
+    "recordCount": 1,
+    "results": [{
+      "portfolioName": "CMFL Fleet",
+      "valuationJobReference": "VJ-2024-002",
+      "valuationVesselId": 52200,
+      "cvn": 16173300,
+      "imoNumber": 9134414,
+      "vesselName": "TOYOKUNI MARU No. 3",
+      "vesselType": "General Cargo Ship",
+      "yearOfBuild": 1995,
+      "owner": "Toyokuni Kaiun KK",
+      "builder": "Naikai Zosen",
+      "valuationDate": "2024-03-01T00:00:00",
+      "valuationCurrency": "USD",
+      "valuationAmountMid": 2.8,
+      "valuationAmountLow": 2.2,
+      "valuationAmountHigh": 3.5,
+      "valuationMethodology": "Market Comparable",
+      "currentRoughValueUSDmillion": 2.8,
+      "currentEstimatedDemolitionValueUSDmillion": 0.8,
+      "currentDemolitionUSDPerLDT": 480,
+      "ldt": 1670,
+      "currentEstimatedNewbuildValueUSDmillion": 12.0
+    }]
+  }
+}

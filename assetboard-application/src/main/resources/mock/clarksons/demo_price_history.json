@@ -1,0 +1,14 @@
+{
+  "9488918": {
+    "pageSize": 100,
+    "page": 1,
+    "moreResults": false,
+    "recordCount": 4,
+    "results": [
+      {"cvn": 16173224, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2024-03-01T00:00:00", "estimatedDemolitionValueUSDmillion": 12.5, "estimatedDemolitionUSDPerLDT": 550},
+      {"cvn": 16173223, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2024-02-01T00:00:00", "estimatedDemolitionValueUSDmillion": 12.3, "estimatedDemolitionUSDPerLDT": 542},
+      {"cvn": 16173222, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2024-01-01T00:00:00", "estimatedDemolitionValueUSDmillion": 12.0, "estimatedDemolitionUSDPerLDT": 530},
+      {"cvn": 16173221, "imoNumber": 9488918, "valuationVesselId": 52173, "date": "2023-12-01T00:00:00", "estimatedDemolitionValueUSDmillion": 11.8, "estimatedDemolitionUSDPerLDT": 520}
+    ]
+  }
+}
