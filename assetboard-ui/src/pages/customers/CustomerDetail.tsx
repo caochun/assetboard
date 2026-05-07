@@ -5,6 +5,7 @@ import { getProjectsByCustomerId } from '../../api/project';
 import { getAssets } from '../../api/asset';
 import { useAuth } from '../../hooks/useAuth';
 import StatusBadge from '../../components/StatusBadge';
+import { ASSET_TYPE_LABELS } from '../../constants/dataSources';
 import type { Customer, Project, Asset } from '../../types';
 
 export default function CustomerDetail() {
@@ -59,7 +60,7 @@ export default function CustomerDetail() {
             <Link key={a.id} to={`/assets/${a.id}`} className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
               <div>
                 <p className="font-medium text-gray-900">{a.name}</p>
-                <p className="text-xs text-gray-500">{a.type}</p>
+                <p className="text-xs text-gray-500">{ASSET_TYPE_LABELS[a.type] || a.type}</p>
               </div>
               <StatusBadge value={a.status} />
             </Link>

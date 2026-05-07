@@ -9,6 +9,7 @@ import { getAlarms } from '../api/alarm';
 import { getContracts } from '../api/contract';
 import { useAuth } from '../hooks/useAuth';
 import StatusBadge from '../components/StatusBadge';
+import { translateAlarmType } from '../constants/dataSources';
 import type { Asset, Alarm, Contract } from '../types';
 import dayjs from 'dayjs';
 
@@ -247,7 +248,7 @@ export default function Dashboard() {
           <tbody className="divide-y divide-gray-50">
             {recentAlarms.map((alarm) => (
               <tr key={alarm.id} className="cursor-pointer hover:bg-blue-50/40 transition-colors" onClick={() => navigate('/alarms')}>
-                <td className="py-3 font-medium text-gray-900">{alarm.type}</td>
+                <td className="py-3 font-medium text-gray-900">{translateAlarmType(alarm.type)}</td>
                 <td className="py-3"><StatusBadge value={alarm.severity} /></td>
                 <td className="py-3 text-gray-500">{dayjs(alarm.createdTime).format('YYYY-MM-DD HH:mm')}</td>
                 <td className="py-3 text-gray-600">{alarm.cleared ? '已清除' : alarm.acknowledged ? '已确认' : '待处理'}</td>

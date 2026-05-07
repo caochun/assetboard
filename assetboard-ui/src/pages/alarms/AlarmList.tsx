@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { usePagination } from '../../hooks/usePagination';
 import PageHeader from '../../components/PageHeader';
 import StatusBadge from '../../components/StatusBadge';
+import { translateAlarmType, SEVERITY_LABELS } from '../../constants/dataSources';
 import type { Alarm, PageData } from '../../types';
 import dayjs from 'dayjs';
 
@@ -48,7 +49,7 @@ export default function AlarmList() {
               filter === f ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            {f === 'ALL' ? '全部' : f === 'UNACKED' ? '待处理' : f}
+            {f === 'ALL' ? '全部' : f === 'UNACKED' ? '待处理' : SEVERITY_LABELS[f] || f}
           </button>
         ))}
       </div>
@@ -66,7 +67,7 @@ export default function AlarmList() {
           <tbody>
             {filtered.map((alarm) => (
               <tr key={alarm.id} className="border-t border-gray-100 hover:bg-blue-50/40 transition-colors">
-                <td className="px-5 py-3.5 font-medium text-gray-900">{alarm.type}</td>
+                <td className="px-5 py-3.5 font-medium text-gray-900">{translateAlarmType(alarm.type)}</td>
                 <td className="px-5 py-3.5"><StatusBadge value={alarm.severity} /></td>
                 <td className="px-5 py-3.5 text-gray-500">{dayjs(alarm.createdTime).format('YYYY-MM-DD HH:mm')}</td>
                 <td className="px-5 py-3.5 text-gray-600">{alarm.cleared ? '已清除' : alarm.acknowledged ? '已确认' : '待处理'}</td>

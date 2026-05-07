@@ -5,7 +5,7 @@ import { getAssets, getLatestTimeseries, getAttributes } from '../../api/asset';
 import { getAlarmsByOriginator } from '../../api/alarm';
 import { getDataSourceConfigs } from '../../api/dataSourceConfig';
 import { useAuth } from '../../hooks/useAuth';
-import { DATA_SOURCES, ASSET_TYPE_LABELS } from '../../constants/dataSources';
+import { DATA_SOURCES, ASSET_TYPE_LABELS, translateTsKey } from '../../constants/dataSources';
 import type { DataSourceDef } from '../../constants/dataSources';
 import type { Asset, TsKvEntry, AttributeKvEntry, Alarm, DataSourceConfig } from '../../types';
 import PageHeader from '../../components/PageHeader';
@@ -156,7 +156,7 @@ export default function DataSourceList() {
       const matching = snap.latestTs.filter((e) => ds.tsKeys!.includes(e.key));
       if (matching.length > 0) {
         lastTime = Math.max(...matching.map((e) => e.ts));
-        detail = matching.map((e) => `${e.key}=${e.value}`).join(', ');
+        detail = matching.map((e) => `${translateTsKey(e.key)}=${e.value}`).join(', ');
       }
     } else if (ds.type === 'attribute') {
       if (snap.attributes.length > 0) {
@@ -257,7 +257,7 @@ export default function DataSourceList() {
                           {ds.tsKeys && (
                             <div className="col-span-2">
                               <span className="text-gray-400">监控指标：</span>
-                              <span className="text-gray-700 font-mono">{ds.tsKeys.join(', ')}</span>
+                              <span className="text-gray-700">{ds.tsKeys.map((k) => translateTsKey(k)).join(', ')}</span>
                             </div>
                           )}
                           {ds.alarmTypePatterns && (

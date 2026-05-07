@@ -6,6 +6,7 @@ import { usePagination } from '../../hooks/usePagination';
 import PageHeader from '../../components/PageHeader';
 import DataTable from '../../components/DataTable';
 import StatusBadge from '../../components/StatusBadge';
+import { ASSET_TYPE_LABELS } from '../../constants/dataSources';
 import type { Asset, PageData } from '../../types';
 
 export default function AssetList() {
@@ -21,7 +22,7 @@ export default function AssetList() {
 
   const columns = [
     { key: 'name', title: '名称' },
-    { key: 'type', title: '类型' },
+    { key: 'type', title: '类型', render: (row: Asset) => ASSET_TYPE_LABELS[row.type] || row.type },
     { key: 'status', title: '状态', render: (row: Asset) => <StatusBadge value={row.status} /> },
     { key: 'label', title: '标签' },
   ];

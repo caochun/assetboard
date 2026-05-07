@@ -5,6 +5,7 @@ import { getProjectById } from '../../api/project';
 import { getRelationsFrom } from '../../api/relation';
 import { getAssetById } from '../../api/asset';
 import StatusBadge from '../../components/StatusBadge';
+import { ASSET_TYPE_LABELS } from '../../constants/dataSources';
 import type { Contract, Project, Asset } from '../../types';
 import dayjs from 'dayjs';
 
@@ -62,7 +63,7 @@ export default function ContractDetail() {
             <Link key={a.id} to={`/assets/${a.id}`} className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
               <div>
                 <p className="font-medium text-gray-900">{a.name}</p>
-                <p className="text-xs text-gray-500">{a.type}</p>
+                <p className="text-xs text-gray-500">{ASSET_TYPE_LABELS[a.type] || a.type}</p>
               </div>
               <StatusBadge value={a.status} />
             </Link>

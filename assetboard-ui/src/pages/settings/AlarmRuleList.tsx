@@ -5,6 +5,7 @@ import { usePagination } from '../../hooks/usePagination';
 import PageHeader from '../../components/PageHeader';
 import DataTable from '../../components/DataTable';
 import StatusBadge from '../../components/StatusBadge';
+import { CONDITION_LABELS, translateAlarmType } from '../../constants/dataSources';
 import type { AlarmRule, PageData } from '../../types';
 
 export default function AlarmRuleList() {
@@ -54,9 +55,9 @@ export default function AlarmRuleList() {
       return r.targetType ? (map[r.targetType] || r.targetType) : '-';
     }},
     { key: 'telemetryKey', title: '监控指标' },
-    { key: 'condition', title: '条件', render: (r: AlarmRule) => `${r.condition} ${r.threshold}` },
+    { key: 'condition', title: '条件', render: (r: AlarmRule) => `${CONDITION_LABELS[r.condition] || r.condition} ${r.threshold}` },
     { key: 'severity', title: '告警级别', render: (r: AlarmRule) => <StatusBadge value={r.severity} /> },
-    { key: 'alarmType', title: '告警类型' },
+    { key: 'alarmType', title: '告警类型', render: (r: AlarmRule) => translateAlarmType(r.alarmType) },
     { key: 'enabled', title: '状态', render: (r: AlarmRule) => (
       <span className={`text-xs font-medium ${r.enabled ? 'text-green-600' : 'text-gray-400'}`}>{r.enabled ? '启用' : '禁用'}</span>
     )},
@@ -82,18 +83,18 @@ export default function AlarmRuleList() {
           <div className="grid grid-cols-2 gap-3">
             <input placeholder="监控指标 (key)" value={form.telemetryKey} onChange={(e) => setForm({ ...form, telemetryKey: e.target.value })} className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-colors" />
             <select value={form.condition} onChange={(e) => setForm({ ...form, condition: e.target.value })} className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-colors">
-              <option value="GT">大于 (GT)</option>
-              <option value="GTE">大于等于 (GTE)</option>
-              <option value="LT">小于 (LT)</option>
-              <option value="LTE">小于等于 (LTE)</option>
-              <option value="EQ">等于 (EQ)</option>
+              <option value="GT">大于</option>
+              <option value="GTE">大于等于</option>
+              <option value="LT">小于</option>
+              <option value="LTE">小于等于</option>
+              <option value="EQ">等于</option>
             </select>
             <input placeholder="阈值" type="number" value={form.threshold} onChange={(e) => setForm({ ...form, threshold: e.target.value })} className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-colors" />
             <select value={form.severity} onChange={(e) => setForm({ ...form, severity: e.target.value })} className="rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-colors">
-              <option value="CRITICAL">CRITICAL</option>
-              <option value="MAJOR">MAJOR</option>
-              <option value="MINOR">MINOR</option>
-              <option value="WARNING">WARNING</option>
+              <option value="CRITICAL">严重</option>
+              <option value="MAJOR">重要</option>
+              <option value="MINOR">次要</option>
+              <option value="WARNING">警告</option>
             </select>
           </div>
           <input placeholder="告警类型" value={form.alarmType} onChange={(e) => setForm({ ...form, alarmType: e.target.value })} className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-colors" />

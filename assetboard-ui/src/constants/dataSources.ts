@@ -1,3 +1,9 @@
+export interface ApiInfo {
+  endpoint: string;
+  paramsTemplate: string;
+  note?: string;
+}
+
 export interface DataSourceDef {
   id: string;
   name: string;
@@ -9,6 +15,7 @@ export interface DataSourceDef {
   interval: string;
   tsKeys?: string[];
   alarmTypePatterns?: string[];
+  apiInfo?: ApiInfo;
 }
 
 export const DATA_SOURCES: DataSourceDef[] = [
@@ -23,6 +30,10 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'ShipXy',
     interval: '每小时',
     tsKeys: ['lat', 'lon', 'sog', 'cog'],
+    apiInfo: {
+      endpoint: '/commonApi/getShipTrack',
+      paramsTemplate: 'imo={imo}, btm=滚动24h, etm=当前',
+    },
   },
   {
     id: 'weather',
@@ -34,6 +45,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'ShipXy',
     interval: '每小时',
     tsKeys: ['temperature', 'humidity', 'pressure', 'winddir', 'windspeed', 'visibility', 'waveheight', 'swellheight'],
+    apiInfo: {
+      endpoint: '/commonApi/getWeatherByPoint',
+      paramsTemplate: 'lon={lon}, lat={lat}',
+      note: '坐标取自 AIS 最新位置',
+    },
   },
   {
     id: 'archive',
@@ -44,6 +60,10 @@ export const DATA_SOURCES: DataSourceDef[] = [
     assetType: 'vessel',
     provider: 'ShipXy',
     interval: '每日',
+    apiInfo: {
+      endpoint: '/commonApi/searchShipParticular',
+      paramsTemplate: 'imo={imo}',
+    },
   },
   {
     id: 'valuation',
@@ -55,6 +75,10 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'Clarksons',
     interval: '每日',
     tsKeys: ['roughValue', 'valuationCurrency'],
+    apiInfo: {
+      endpoint: '/valuations/asset-value-history/{imo}',
+      paramsTemplate: 'imo={imo}',
+    },
   },
   {
     id: 'psc',
@@ -66,6 +90,10 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'ShipXy',
     interval: '每日',
     alarmTypePatterns: ['PSC_DEFICIENCY'],
+    apiInfo: {
+      endpoint: '/commonApi/getShipArchivePSCHistory',
+      paramsTemplate: 'imo={imo}',
+    },
   },
   {
     id: 'alert',
@@ -77,6 +105,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'ShipXy',
     interval: '实时',
     alarmTypePatterns: ['SHIP_ALERT_'],
+    apiInfo: {
+      endpoint: '/commonApi/getShipAlertList',
+      paramsTemplate: '无（全局接口）',
+      note: '全局拉取后按资产 IMO 匹配',
+    },
   },
   // --- 飞机 ---
   {
@@ -89,6 +122,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'OEM/ACARS',
     interval: '每次航班',
     tsKeys: ['flightHours', 'cycleCount', 'fuelEfficiency'],
+    apiInfo: {
+      endpoint: '-',
+      paramsTemplate: '-',
+      note: 'Mock 数据，暂无真实 API 集成',
+    },
   },
   {
     id: 'aircraft-valuation',
@@ -100,6 +138,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: '内部评估',
     interval: '每月',
     tsKeys: ['roughValue'],
+    apiInfo: {
+      endpoint: '-',
+      paramsTemplate: '-',
+      note: 'Mock 数据，暂无真实 API 集成',
+    },
   },
   {
     id: 'aircraft-alarm',
@@ -111,6 +154,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'MRO系统',
     interval: '实时',
     alarmTypePatterns: ['MAINTENANCE_DUE', 'FLIGHT_HOURS_EXCEED'],
+    apiInfo: {
+      endpoint: '-',
+      paramsTemplate: '-',
+      note: 'Mock 数据，暂无真实 API 集成',
+    },
   },
   // --- 工程机械 ---
   {
@@ -123,6 +171,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'IoT终端',
     interval: '每小时',
     tsKeys: ['operatingHours', 'fuelConsumption', 'lat', 'lon'],
+    apiInfo: {
+      endpoint: '-',
+      paramsTemplate: '-',
+      note: 'Mock 数据，暂无真实 API 集成',
+    },
   },
   {
     id: 'equipment-valuation',
@@ -134,6 +187,11 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: '内部评估',
     interval: '每月',
     tsKeys: ['roughValue'],
+    apiInfo: {
+      endpoint: '-',
+      paramsTemplate: '-',
+      note: 'Mock 数据，暂无真实 API 集成',
+    },
   },
   {
     id: 'equipment-alarm',
@@ -145,8 +203,39 @@ export const DATA_SOURCES: DataSourceDef[] = [
     provider: 'IoT终端',
     interval: '实时',
     alarmTypePatterns: ['EQUIPMENT_OVERUSE', 'MAINTENANCE_DUE'],
+    apiInfo: {
+      endpoint: '-',
+      paramsTemplate: '-',
+      note: 'Mock 数据，暂无真实 API 集成',
+    },
   },
 ];
+
+export const TS_KEY_LABELS: Record<string, string> = {
+  lat: '纬度',
+  lon: '经度',
+  sog: '航速(SOG)',
+  cog: '航向(COG)',
+  temperature: '温度',
+  humidity: '湿度',
+  pressure: '气压',
+  winddir: '风向',
+  windspeed: '风速',
+  visibility: '能见度',
+  waveheight: '浪高',
+  swellheight: '涌浪高度',
+  roughValue: '估值',
+  valuationCurrency: '估值币种',
+  flightHours: '飞行小时',
+  cycleCount: '起落次数',
+  fuelEfficiency: '燃油效率',
+  operatingHours: '运行时长',
+  fuelConsumption: '油耗',
+};
+
+export function translateTsKey(key: string): string {
+  return TS_KEY_LABELS[key] || key;
+}
 
 export const ASSET_TYPE_LABELS: Record<string, string> = {
   vessel: '船舶',
@@ -165,6 +254,35 @@ export function getDataSourceById(id: string): DataSourceDef | undefined {
 export function getTimeseriesSource(key: string): string | undefined {
   return DATA_SOURCES.find((d) => d.tsKeys?.includes(key))?.fullName;
 }
+
+export function translateAlarmType(type: string): string {
+  const map: Record<string, string> = {
+    PSC_DEFICIENCY: 'PSC缺陷',
+    NAV_WARNING: '航行警告',
+    VALUATION_DROP: '估值下跌',
+    MAINTENANCE_DUE: '定检到期',
+    FLIGHT_HOURS_EXCEED: '飞行超限',
+    EQUIPMENT_OVERUSE: '设备超负荷',
+  };
+  if (map[type]) return map[type];
+  if (type.startsWith('SHIP_ALERT_')) return '船舶预警·' + type.slice('SHIP_ALERT_'.length);
+  return type;
+}
+
+export const CONDITION_LABELS: Record<string, string> = {
+  GT: '大于',
+  GTE: '≥',
+  LT: '小于',
+  LTE: '≤',
+  EQ: '等于',
+};
+
+export const SEVERITY_LABELS: Record<string, string> = {
+  CRITICAL: '严重',
+  MAJOR: '重要',
+  MINOR: '次要',
+  WARNING: '警告',
+};
 
 export function getAlarmSource(alarmType: string): string {
   if (alarmType === 'PSC_DEFICIENCY') return 'PSC检查(ShipXy)';

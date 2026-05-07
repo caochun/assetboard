@@ -10,7 +10,7 @@ import { getRelationsTo } from '../../api/relation';
 import { getContractById } from '../../api/contract';
 import { getDataSourceConfigs, saveDataSourceConfig, deleteDataSourceConfig } from '../../api/dataSourceConfig';
 import StatusBadge from '../../components/StatusBadge';
-import { DATA_SOURCES, getDataSourceById, getTimeseriesSource, getAlarmSource, ASSET_TYPE_LABELS } from '../../constants/dataSources';
+import { DATA_SOURCES, getDataSourceById, getTimeseriesSource, getAlarmSource, translateAlarmType, translateTsKey, ASSET_TYPE_LABELS } from '../../constants/dataSources';
 import type { Asset, AttributeKvEntry, TsKvEntry, Alarm, Contract, DataSourceConfig } from '../../types';
 import dayjs from 'dayjs';
 
@@ -76,6 +76,17 @@ export default function AssetDetail() {
 
   if (!asset) return <div className="text-gray-400">加载中...</div>;
 
+  function resolveApiParams(template: string, a: Asset, ts: TsKvEntry[]): string {
+    let result = template;
+    const imo = a.additionalInfo?.imo;
+    if (imo) result = result.replace(/\{imo\}/g, String(imo));
+    const latEntry = ts.find((e) => e.key === 'lat');
+    const lonEntry = ts.find((e) => e.key === 'lon');
+    if (latEntry) result = result.replace(/\{lat\}/g, String(latEntry.value));
+    if (lonEntry) result = result.replace(/\{lon\}/g, String(lonEntry.value));
+    return result;
+  }
+
   const tsKeys = [...new Set(latestTs.map((e) => e.key))];
 
   const chartOption = {
@@ -120,7 +131,7 @@ export default function AssetDetail() {
       {tab === 'info' && (
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div><span className="text-xs text-gray-500">类型</span><p className="text-sm font-medium text-gray-900">{asset.type}</p></div>
+            <div><span className="text-xs text-gray-500">类型</span><p className="text-sm font-medium text-gray-900">{ASSET_TYPE_LABELS[asset.type] || asset.type}</p></div>
             <div><span className="text-xs text-gray-500">状态</span><p><StatusBadge value={asset.status} /></p></div>
             <div><span className="text-xs text-gray-500">标签</span><p className="text-sm font-medium text-gray-900">{asset.label}</p></div>
           </div>
@@ -152,7 +163,7 @@ export default function AssetDetail() {
               onChange={(e) => setTsKey(e.target.value)}
               className="rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-colors"
             >
-              {tsKeys.map((k) => <option key={k} value={k}>{k}</option>)}
+              {tsKeys.map((k) => <option key={k} value={k}>{translateTsKey(k)}</option>)}
             </select>
             {getTimeseriesSource(tsKey) && (
               <span className="text-xs text-gray-400 self-center">数据来源: {getTimeseriesSource(tsKey)}</span>
@@ -189,7 +200,7 @@ export default function AssetDetail() {
             <tbody>
               {alarms.map((a) => (
                 <tr key={a.id} className="border-b">
-                  <td className="py-2">{a.type}</td>
+                  <td className="py-2">{translateAlarmType(a.type)}</td>
                   <td className="py-2"><StatusBadge value={a.severity} /></td>
                   <td className="py-2 text-gray-500">{dayjs(a.createdTime).format('YYYY-MM-DD HH:mm')}</td>
                   <td className="py-2">{a.cleared ? '已清除' : a.acknowledged ? '已确认' : '待处理'}</td>
@@ -328,6 +339,18 @@ export default function AssetDetail() {
                     </div>
                     <p className="text-xs text-gray-500 mb-1">{ds.description}</p>
                     <p className="text-xs text-gray-400 mb-3">{ds.provider} · {ds.interval}</p>
+                    {ds.apiInfo && (
+                      <div className="mb-3 rounded-lg bg-gray-50 px-3 py-2 text-xs">
+                        <p className="font-medium text-gray-500 mb-1">采集接口</p>
+                        <p className="text-gray-600 font-mono">{ds.apiInfo.endpoint}</p>
+                        {ds.apiInfo.paramsTemplate !== '-' && (
+                          <p className="text-gray-500 mt-0.5">参数: {resolveApiParams(ds.apiInfo.paramsTemplate, asset, latestTs)}</p>
+                        )}
+                        {ds.apiInfo.note && (
+                          <p className="text-gray-400 mt-0.5 italic">{ds.apiInfo.note}</p>
+                        )}
+                      </div>
+                    )}
                     <div className="text-xs text-gray-400 space-y-1">
                       {lastTime && <p>最近采集: {dayjs(lastTime).format('YYYY-MM-DD HH:mm')}</p>}
                       {detail && <p>{detail}</p>}
